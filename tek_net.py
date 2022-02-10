@@ -38,7 +38,7 @@ def run():
                 if int(resp.strip()) == 2:
                     # print('data ready')
                     data_ready = True
-                time.sleep(.05)
+                time.sleep(.3)
             # print('reading')
             resp = send_rec_tek_command(go, ":FRD?")
             now = datetime.datetime.now()
