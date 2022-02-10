@@ -1,3 +1,4 @@
+import datetime
 import time
 import sys
 import subprocess
@@ -35,12 +36,14 @@ def run():
                 resp = send_rec_tek_command(go, ":DSR?")
                 # print(resp)
                 if int(resp.strip()) == 2:
-                    print('data ready')
+                    # print('data ready')
                     data_ready = True
                 time.sleep(.05)
             # print('reading')
             resp = send_rec_tek_command(go, ":FRD?")
-            print(resp)
+            now = datetime.datetime.now()
+            start_time = now.isoformat(sep=' ', timespec='milliseconds')
+            print(f"{start_time},{float(resp.strip())}")
     except KeyboardInterrupt:
         print('closing connection')
         go.close()
