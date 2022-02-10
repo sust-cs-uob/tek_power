@@ -1,0 +1,26 @@
+# clear selection
+:SEL:CLR
+
+# select measurements
+:SEL:VLT
+:SEL:AMP
+:SEL:FRQ
+:SEL:WAT
+:SEL:VAS
+:SEL:VAR
+:SEL:PWF
+:SEL:VPK+
+:SEL:APK+
+
+# read data
+:FRD?
+:FRF?
+
+# set 'data available flag'
+:DSE 2
+
+# is data available?
+:DSR?
+
+
+:FRD?
