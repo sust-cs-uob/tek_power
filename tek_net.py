@@ -28,19 +28,19 @@ def run():
 
         send_rec_tek_command(go, ":SEL:CLR")
         send_rec_tek_command(go, ":SEL:WAT")
-        # send_rec_tek_command(go, ":DSE 2")
-        # while True:
-        #     data_ready = False
-        #     while not data_ready:
-        #         resp = send_rec_tek_command(go, ":DSR?")
-        #         # print(resp)
-        #         if int(resp.strip()) == 2:
-        #             # print('data ready')
-        #             data_ready = True
-        #         time.sleep(.05)
-        #     # print('reading')
-        resp = send_rec_tek_command(go, ":FRD?")
-        print(resp)
+        send_rec_tek_command(go, ":DSE 2")
+        while True:
+            data_ready = False
+            while not data_ready:
+                resp = send_rec_tek_command(go, ":DSR?")
+                # print(resp)
+                if int(resp.strip()) == 2:
+                    print('data ready')
+                    data_ready = True
+                time.sleep(.05)
+            # print('reading')
+            resp = send_rec_tek_command(go, ":FRD?")
+            print(resp)
     except KeyboardInterrupt:
         print('closing connection')
         go.close()
