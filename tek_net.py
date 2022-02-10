@@ -1,4 +1,5 @@
 import datetime
+import logging
 import time
 import sys
 import subprocess
@@ -6,6 +7,11 @@ import socket
 
 HOST = '192.168.1.1'  # Your attacking machine to connect back to
 PORT = 5025  # The port your attacking machine is listening on
+
+logger = logging.getLogger(__file__)
+logging.basicConfig(filename="power.log", filemode='a', level='INFO',
+                    format='%(asctime)s %(levelname)s %(filename)s:%(lineno)s %(message)s',
+                    datefmt='%Y-%m-%d, %H:%M:%S')
 
 
 def connect(host, port):
@@ -43,14 +49,15 @@ def run():
             resp = send_rec_tek_command(go, ":FRD?")
             now = datetime.datetime.now()
             start_time = now.isoformat(sep=' ', timespec='milliseconds')
+            logger.info(f"{start_time},{float(resp.strip())}")
             print(f"{start_time},{float(resp.strip())}")
     except KeyboardInterrupt:
-        print('closing connection')
+        logger.info('closing connection')
         go.close()
         sys.exit()
     go.close()
 
 if __name__ == "__main__":
-
+    logger.info('starting logging')
     run()
 
