@@ -8,7 +8,7 @@ HOST = '192.168.1.1'    # Your attacking machine to connect back to
 PORT = 5025           # The port your attacking machine is listening on
 
 
-def connect((host, port)):
+def connect(host, port):
    go = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
    go.connect((host, port))
    return go
@@ -38,8 +38,10 @@ def wait(go):
 
 
 def run():
+    print('test')
     go = connect((HOST, PORT))
-    resp = send_rec_tek_command(conn, ":FRD?")
+    # resp = send_rec_tek_command(go, ":SEL:WAT")
+    resp = send_rec_tek_command(go, ":FRD?")
     print(resp)
     return 0
 
