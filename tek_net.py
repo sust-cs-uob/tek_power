@@ -3,22 +3,21 @@ import sys
 import subprocess
 import socket
 
-
-HOST = '192.168.1.1'    # Your attacking machine to connect back to
-PORT = 5025           # The port your attacking machine is listening on
+HOST = '192.168.1.1'  # Your attacking machine to connect back to
+PORT = 5025  # The port your attacking machine is listening on
 
 
 def connect(host, port):
-   go = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-   go.connect((host, port))
-   return go
+    go = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    go.connect((host, port))
+    return go
 
 
-def send_rec_tek_command (conn, cmd_string):
-    
+def send_rec_tek_command(conn, cmd_string):
     conn.send((cmd_string + "\n").encode())
     dataFromServer = conn.recv(1024)
     return dataFromServer.decode()
+
 
 def tek_connect():
     data = ":SEL:CLR\n"
@@ -28,13 +27,14 @@ def tek_connect():
     dataFromServer = so.recv(1024)
     print(dataFromServer.decode())
 
+
 def wait(go):
     data = go.recv(1024)
     if data == "exit\n":
         go.close()
         sys.exit(0)
     elif len(data) == 0:
-      return True
+        return True
 
 
 def run():
@@ -49,8 +49,8 @@ def run():
         while not data_ready:
             resp = send_rec_tek_command(go, ":DSR?")
             print(resp)
-            if resp == "2":
-                print ('data ready')
+            if int(resp.strip()) == 2:
+                print('data ready')
                 data_ready = True
             time.sleep(.05)
         print('reading')
@@ -59,13 +59,14 @@ def run():
 
     return 0
 
-def main(): 
+
+def main():
     while True:
         dead = False
         try:
-            go = connect((HOST, PORT)) 
+            go = connect((HOST, PORT))
             while not dead:
-                dead = wait(go) 
+                dead = wait(go)
             go.close()
         except socket.error:
             pass
@@ -73,6 +74,5 @@ def main():
 
 
 if __name__ == "__main__":
-#    sys.exit(main())
+    #    sys.exit(main())
     sys.exit(run())
-
