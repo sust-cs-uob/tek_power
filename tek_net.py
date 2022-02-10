@@ -40,9 +40,18 @@ def wait(go):
 def run():
     print('test')
     go = connect(HOST, PORT)
-    # resp = send_rec_tek_command(go, ":SEL:WAT")
-    resp = send_rec_tek_command(go, ":FRD?")
-    print(resp)
+
+    while True:
+        data_ready = False
+        while not data_ready:
+            resp = send_rec_tek_command(go, ":DSR?")
+            print(resp)
+            if resp == "2":
+                data_ready = True
+            time.sleep(.1)
+        resp = send_rec_tek_command(go, ":FRD?")
+        print(resp)
+
     return 0
 
 def main(): 
