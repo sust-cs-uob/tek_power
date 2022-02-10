@@ -19,60 +19,35 @@ def send_rec_tek_command(conn, cmd_string):
     return dataFromServer.decode()
 
 
-def tek_connect():
-    data = ":SEL:CLR\n"
-    data = ":SEL:WAT\n"
-    data = ":FRD?\n"
-    so.send(data.encode())
-    dataFromServer = so.recv(1024)
-    print(dataFromServer.decode())
-
-
-def wait(go):
-    data = go.recv(1024)
-    if data == "exit\n":
-        go.close()
-        sys.exit(0)
-    elif len(data) == 0:
-        return True
-
 
 def run():
-    print('test')
-    go = connect(HOST, PORT)
+    # print('test')
+    go = None
+    try:
+        go = connect(HOST, PORT)
 
-    send_rec_tek_command(go, ":SEL:WAT")
-    send_rec_tek_command(go, ":SEL:CLR")
-    send_rec_tek_command(go, ":DSE 2")
-    while True:
-        data_ready = False
-        while not data_ready:
-            resp = send_rec_tek_command(go, ":DSR?")
-            print(resp)
-            if int(resp.strip()) == 2:
-                print('data ready')
-                data_ready = True
-            time.sleep(.05)
-        print('reading')
+        send_rec_tek_command(go, ":SEL:CLR")
+        send_rec_tek_command(go, ":SEL:WAT")
+        # send_rec_tek_command(go, ":DSE 2")
+        # while True:
+        #     data_ready = False
+        #     while not data_ready:
+        #         resp = send_rec_tek_command(go, ":DSR?")
+        #         # print(resp)
+        #         if int(resp.strip()) == 2:
+        #             # print('data ready')
+        #             data_ready = True
+        #         time.sleep(.05)
+        #     # print('reading')
         resp = send_rec_tek_command(go, ":FRD?")
         print(resp)
-
-    return 0
-
-
-def main():
-    while True:
-        dead = False
-        try:
-            go = connect((HOST, PORT))
-            while not dead:
-                dead = wait(go)
-            go.close()
-        except socket.error:
-            pass
-        time.sleep(2)
-
+    except KeyboardInterrupt:
+        print('closing connection')
+        go.close()
+        sys.exit()
+    go.close()
 
 if __name__ == "__main__":
-    #    sys.exit(main())
-    sys.exit(run())
+
+    run()
+
