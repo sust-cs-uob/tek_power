@@ -28,10 +28,9 @@ def send_rec_tek_command(conn, cmd_string):
     return dataFromServer.decode()
 
 
-
 def run(args):
-    bufsize = ceil(8192/5) # default buffer results in flush every 2.5 min or so -> this lowers it to 30s
-    with open(args.csv, 'w',buffering=bufsize) as myfile:
+    bufsize = ceil(8192 / 5)  # default buffer results in flush every 2.5 min or so -> this lowers it to 30s
+    with open(args.csv, 'a', buffering=bufsize) as myfile:
         wrtr = csv.writer(myfile, delimiter=',', quotechar='"')
 
         # print('test')
@@ -65,6 +64,7 @@ def run(args):
             sys.exit()
         go.close()
 
+
 def setup_parser(args):
     import argparse
     parser = argparse.ArgumentParser()
@@ -79,4 +79,3 @@ if __name__ == "__main__":
     args = setup_parser(sys.argv[1:])
     logger.info(f'starting logging to file {args.csv}')
     run(args)
-
