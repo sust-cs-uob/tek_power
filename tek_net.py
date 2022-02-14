@@ -29,7 +29,7 @@ def send_rec_tek_command(conn, cmd_string):
 
 
 def run(args):
-    with open(args.csv, 'wb') as myfile:
+    with open(args.csv, 'w') as myfile:
         wrtr = csv.writer(myfile, delimiter=',', quotechar='"')
 
         # print('test')
