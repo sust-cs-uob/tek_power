@@ -29,8 +29,8 @@ def send_rec_tek_command(conn, cmd_string):
 
 
 def run(args):
-    bufsize = ceil(8192 / 5)  # default buffer results in flush every 2.5 min or so -> this lowers it to 30s
-    with open(args.csv, 'a', buffering=bufsize) as myfile:
+
+    with open(args.csv, 'a') as myfile:
         wrtr = csv.writer(myfile, delimiter=',', quotechar='"')
 
         # print('test')
