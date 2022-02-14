@@ -5,6 +5,7 @@ import time
 import sys
 import subprocess
 import socket
+from math import ceil
 
 HOST = '192.168.1.1'  # Your attacking machine to connect back to
 PORT = 5025  # The port your attacking machine is listening on
@@ -29,7 +30,8 @@ def send_rec_tek_command(conn, cmd_string):
 
 
 def run(args):
-    with open(args.csv, 'w') as myfile:
+    bufsize = ceil(8192/5) # default buffer results in flush every 2.5 min or so -> this lowers it to 30s
+    with open(args.csv, 'w',buffering=bufsize) as myfile:
         wrtr = csv.writer(myfile, delimiter=',', quotechar='"')
 
         # print('test')
