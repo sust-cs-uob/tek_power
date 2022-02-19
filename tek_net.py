@@ -40,6 +40,14 @@ def run(args):
 
             send_rec_tek_command(go, ":SEL:CLR")
             send_rec_tek_command(go, ":SEL:WAT")
+            send_rec_tek_command(go, ":SEL:VLT")
+            send_rec_tek_command(go, ":SEL:AMP")
+            send_rec_tek_command(go, ":SEL:FRQ")
+            send_rec_tek_command(go, ":SEL:VAS")
+            send_rec_tek_command(go, ":SEL:VAR")
+            send_rec_tek_command(go, ":SEL:PWF")
+            send_rec_tek_command(go, ":SEL:VPK+")
+            send_rec_tek_command(go, ":SEL:APK+")
             send_rec_tek_command(go, ":DSE 2")
             while True:
                 data_ready = False
@@ -55,9 +63,11 @@ def run(args):
                 now = datetime.datetime.now()
                 start_time = now.isoformat(sep=' ', timespec='milliseconds')
 
-                wrtr.writerow([start_time, float(resp.strip())])
+                wrtr.writerow([start_time, resp])
+                # wrtr.writerow([start_time, float(resp.strip())])
                 # logger.info(f"{start_time},{float(resp.strip())}")
-                print(f"{start_time},{float(resp.strip())}")
+                print(f"{start_time},{resp}")
+                # print(f"{start_time},{float(resp.strip())}")
         except KeyboardInterrupt:
             logger.info('closing connection')
             go.close()
