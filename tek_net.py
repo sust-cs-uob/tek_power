@@ -29,7 +29,6 @@ def send_rec_tek_command(conn, cmd_string):
 
 
 def run(args):
-
     with open(args.csv, 'a') as myfile:
         wrtr = csv.writer(myfile, delimiter=',', quotechar='"')
 
@@ -41,7 +40,8 @@ def run(args):
             send_rec_tek_command(go, ":SEL:CLR")
             assert args.metrics
             metric_set = False
-            for metric in args.metrics:
+            for metric in args.metrics.split(','):
+                metric = metric.strip()
                 if metric in ['WAT', 'VLT', 'AMP', 'FRQ', 'VAS', 'VAR', 'PWF', 'VPK+', 'APK+']:
                     send_rec_tek_command(go, f":SEL:{metric}")
                     metric_set = True
@@ -78,9 +78,12 @@ def setup_parser(args):
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--csv', '-c', help="to write to")
-    parser.add_argument('--metrics', '-m', help="metrics to store (from: WAT, VLT, AMP, FRQ, VAS, VAR, PWF, VPK+, APK+), default WAT ", default='WAT')
+    parser.add_argument('--metrics', '-m',
+                        help="metrics to store (from: WAT, VLT, AMP, FRQ, VAS, VAR, PWF, VPK+, APK+), default WAT ",
+                        default='WAT')
 
     args = parser.parse_args(args)
+
     # print(args)
     return args
 
@@ -88,4 +91,5 @@ def setup_parser(args):
 if __name__ == "__main__":
     args = setup_parser(sys.argv[1:])
     logger.info(f'starting logging to file {args.csv}')
+
     run(args)
