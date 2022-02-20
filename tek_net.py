@@ -39,15 +39,14 @@ def run(args):
             go = connect(HOST, PORT)
 
             send_rec_tek_command(go, ":SEL:CLR")
-            send_rec_tek_command(go, ":SEL:WAT")
-            send_rec_tek_command(go, ":SEL:VLT")
-            send_rec_tek_command(go, ":SEL:AMP")
-            send_rec_tek_command(go, ":SEL:FRQ")
-            send_rec_tek_command(go, ":SEL:VAS")
-            send_rec_tek_command(go, ":SEL:VAR")
-            send_rec_tek_command(go, ":SEL:PWF")
-            send_rec_tek_command(go, ":SEL:VPK+")
-            send_rec_tek_command(go, ":SEL:APK+")
+            assert args.metrics
+            metric_set = False
+            for metric in args.metrics:
+                if metric in ['WAT', 'VLT', 'AMP', 'FRQ', 'VAS', 'VAR', 'PWF', 'VPK+', 'APK+']:
+                    send_rec_tek_command(go, f":SEL:{metric}")
+                    metric_set = True
+            assert metric_set
+
             send_rec_tek_command(go, ":DSE 2")
             while True:
                 data_ready = False
@@ -66,9 +65,9 @@ def run(args):
                 wrtr.writerow([start_time, resp])
                 # wrtr.writerow([start_time, float(resp.strip())])
                 # logger.info(f"{start_time},{float(resp.strip())}")
-                print(f"{start_time},{resp}")
+                print(f"{start_time},{resp.strip()}")
                 # print(f"{start_time},{float(resp.strip())}")
-        except KeyboardInterrupt:
+        except:
             logger.info('closing connection')
             go.close()
             sys.exit()
@@ -79,6 +78,7 @@ def setup_parser(args):
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--csv', '-c', help="to write to")
+    parser.add_argument('--metrics', '-m', help="metrics to store (from: WAT, VLT, AMP, FRQ, VAS, VAR, PWF, VPK+, APK+), default WAT ", default='WAT')
 
     args = parser.parse_args(args)
     # print(args)
