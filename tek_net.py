@@ -62,9 +62,9 @@ def run(args):
                 now = datetime.datetime.now()
                 start_time = now.isoformat(sep=' ', timespec='milliseconds')
 
-                wrtr.writerow([start_time, resp])
+                wrtr.writerow([start_time, resp.strip()])
                 # wrtr.writerow([start_time, float(resp.strip())])
-                # logger.info(f"{start_time},{float(resp.strip())}")
+                logger.info(f"{start_time},{resp.strip()}")
                 print(f"{start_time},{resp.strip()}")
                 # print(f"{start_time},{float(resp.strip())}")
         except:
