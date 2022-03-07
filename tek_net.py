@@ -66,8 +66,8 @@ def run(args):
                 wrtr.writerow([start_time] + meter_data)
                 # wrtr.writerow([start_time, float(resp.strip())])
 
-                logger.info(f"""{start_time},{meter_data}""")
-                print(f"""{start_time},{meter_data}""")
+                logger.info(f"""{start_time},{','.join(meter_data)}""")
+                print(f"""{start_time},{','.join(meter_data)}""")
                 # print(f"{start_time},{float(resp.strip())}")
         except:
             logger.info('closing connection')
