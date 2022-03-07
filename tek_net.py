@@ -62,8 +62,8 @@ def run(args):
                 now = datetime.datetime.now()
                 start_time = now.isoformat(sep=' ', timespec='milliseconds')
 
-                meter_data = resp.strip('" \n')
-                wrtr.writerow([start_time, meter_data])
+                meter_data = resp.strip('" \n').split(',')
+                wrtr.writerow([start_time] + meter_data)
                 # wrtr.writerow([start_time, float(resp.strip())])
 
                 logger.info(f"""{start_time},{meter_data}""")
