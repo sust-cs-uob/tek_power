@@ -76,9 +76,11 @@ class Rs_power:
             wrtr.writerow("URMS[V],IRMS[A],P[W],FPLL[Hz],URange[V],IRange[A],S[VA],Q[var],LAMBDA[],UTHD[%],Timestamp".split(','))
 
             try:
+                curr_time = None
                 while True:
                     res = self.query("CHAN1:MEAS:DATA1?")
-                    row = f"{res.strip()},{datetime.now().time()}"
+                    curr_time = datetime.now().time()
+                    row = f"{res.strip()},{curr_time}"
 
                     print(row)
                     wrtr.writerow(row.split(','))
@@ -94,7 +96,7 @@ class Rs_power:
                     data = csv.reader(f)
                     logs.extend(data)
 
-                end_time = {5: ["#End Time", datetime.now().time()]}
+                end_time = {5: ["#End Time", curr_time]}
 
                 with open(filename, 'w') as f:
                     wrtr = csv.writer(f, delimiter=',', quoting=csv.QUOTE_NONE)
