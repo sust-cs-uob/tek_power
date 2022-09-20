@@ -79,7 +79,7 @@ class Rs_power:
                 curr_time = None
                 while True:
                     res = self.query("CHAN1:MEAS:DATA1?")
-                    curr_time = datetime.now().time()
+                    curr_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     row = f"{res.strip()},{curr_time}"
 
                     print(row)
