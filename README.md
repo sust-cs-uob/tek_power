@@ -1,4 +1,5 @@
-# Tektronix PA1000 Power Measurements over Ethernet
+# Tektronix PA1000 and Rhode & Schwartz 8515 Power Measurements over Ethernet
+
 
 [Manual](https://download.tek.com/manual/PA1000_User_Manual_26.pdf)
 See p. 54 for commands 
